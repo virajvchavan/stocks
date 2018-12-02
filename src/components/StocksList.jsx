@@ -1,4 +1,5 @@
 import React from 'react'
+import StockRow from './StockRow.jsx'
 
 class StocksList extends React.Component {
 
@@ -19,7 +20,14 @@ class StocksList extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {/*add rows in a loop here*/}
+              {Object.keys(this.props.stocks).map((stock_name, index) =>
+                {
+                  let current_stock = this.props.stocks[stock_name];
+                  return (
+                    <StockRow key={index} stock_name={stock_name} stock_data={current_stock} />
+                  )
+                }
+              )}
             </tbody>
           </table>
          </div>

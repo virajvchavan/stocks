@@ -1,0 +1,17 @@
+.card-header{
+  background: #4a4a4a;
+  border-radius: 1px;
+}
+
+.card-header-title{
+  color: white !important;
+}
+
+#stocks_list .card-content{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#stocks_list table{
+  width: 100%;
+  margin: 3px;
+}
