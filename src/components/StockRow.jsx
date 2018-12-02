@@ -6,7 +6,7 @@ class StockRow extends React.Component {
     return (
       <tr id={this.props.stock_name} >
         <td>{this.props.stock_name.toUpperCase()}</td>
-        <td>
+        <td className={this.props.getStockValueColor(this.props.stock_data)}>
           {this.props.stock_data.current_value.toFixed(2)}
         </td>
         <td>

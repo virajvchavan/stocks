@@ -24,7 +24,10 @@ class StocksList extends React.Component {
                 {
                   let current_stock = this.props.stocks[stock_name];
                   return (
-                    <StockRow key={index} stock_name={stock_name} stock_data={current_stock} />
+                    <StockRow
+                      key={index} stock_name={stock_name} stock_data={current_stock}
+                      getStockValueColor={this.props.getStockValueColor}
+                    />
                   )
                 }
               )}
