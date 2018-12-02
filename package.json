@@ -7,7 +7,8 @@
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
     "react-websocket": "2.0.0",
-    "reactbulma": "3.0.4"
+    "reactbulma": "3.0.4",
+    "react-sparklines": "^1.7.0"
   },
   "scripts": {
     "start": "react-scripts start",

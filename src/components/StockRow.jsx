@@ -1,4 +1,5 @@
 import React from 'react'
+import { Sparklines, SparklinesLine } from 'react-sparklines';
 
 class StockRow extends React.Component {
 
@@ -10,7 +11,9 @@ class StockRow extends React.Component {
           {this.props.stock_data.current_value.toFixed(2)}
         </td>
         <td>
-          Sparkline
+          <Sparklines data={this.props.stock_data.history.map((history) => { return history.value})}>
+            <SparklinesLine color="blue" />
+          </Sparklines>
         </td>
         <td>..</td>
       </tr>
