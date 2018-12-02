@@ -33,24 +33,12 @@ class Dashboard extends React.Component {
     this.setState({stocks: new_stocks})
   }
 
-  getStockValueColor = (stock) =>{
-    if(stock.current_value < stock.history.slice(-2)[0].value){
-      return 'red';
-    }
-    else if(stock.current_value > stock.history.slice(-2)[0].value){
-      return 'green';
-    }
-    else{
-      return null;
-    }
-  }
-
   render() {
     return (
       <div className='container'>
         <Websocket url='ws://stocks.mnet.website/' onMessage={this.saveNewStockValues} />
         <div className='columns'>
-          <StocksList stocks={this.state.stocks} getStockValueColor={this.getStockValueColor} />
+          <StocksList stocks={this.state.stocks} />
           <StocksGraph stocks={this.state.stocks} />
         </div>
       </div>

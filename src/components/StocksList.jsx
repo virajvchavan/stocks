@@ -26,11 +26,11 @@ class StocksList extends React.Component {
                   return (
                     <StockRow
                       key={index} stock_name={stock_name} stock_data={current_stock}
-                      getStockValueColor={this.props.getStockValueColor}
                     />
                   )
                 }
               )}
+              { Object.keys(this.props.stocks).length > 0 ? null : <tr><td colSpan='4'>No stocks loaded yet!</td></tr> }
             </tbody>
           </table>
          </div>
