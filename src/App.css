@@ -23,3 +23,12 @@
 .green{
   color: green;
 }
+
+.selected{
+  background: #4dabf559;
+  box-shadow: 1px 1px 5px #5555557d inset;
+}
+
+tr{
+  cursor: pointer;
+}

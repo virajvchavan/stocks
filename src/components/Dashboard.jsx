@@ -7,7 +7,7 @@ import StocksGraph from "./StocksGraph.jsx";
 class Dashboard extends React.Component {
 
   state = {
-  // stocks = {name: {current_value: 12, history: [{time: '2131', value: 45}, ...]}, ...}
+  // stocks = {name: {current_value: 12, history: [{time: '2131', value: 45}, ...], is_selected: false}, ...}
    stocks: {}
   }
 
@@ -19,7 +19,7 @@ class Dashboard extends React.Component {
     let new_stocks = this.state.stocks
     result.map((stock) =>
     {
-      // stock = [name, value]
+      // stock = ['name', 'value']
       if(this.state.stocks[stock[0]])
       {
         new_stocks[stock[0]].current_value = Number(stock[1])
@@ -30,8 +30,13 @@ class Dashboard extends React.Component {
         new_stocks[stock[0]] = { current_value: stock[1], history: [{time: Date.now(), value: Number(stock[1])}], is_selected: false }
       }
     });
-    new_stocks[result[0][0]].is_selected = true // temp, add some mechanism to select stocks
     this.setState({stocks: new_stocks})
+  }
+
+  toggleStockSelection = (stock_name) => {
+    let new_stocks = this.state.stocks;
+    new_stocks[stock_name].is_selected = !new_stocks[stock_name].is_selected
+    this.setState({ stocks: new_stocks })
   }
 
   render() {
@@ -39,7 +44,7 @@ class Dashboard extends React.Component {
       <div className='container'>
         <Websocket url='ws://stocks.mnet.website/' onMessage={this.saveNewStockValues} />
         <div className='columns'>
-          <StocksList stocks={this.state.stocks} />
+          <StocksList stocks={this.state.stocks} toggleStockSelection={this.toggleStockSelection} />
           <StocksGraph stocks={this.state.stocks} />
         </div>
       </div>

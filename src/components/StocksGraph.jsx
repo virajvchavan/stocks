@@ -66,7 +66,7 @@ class StocksGraph extends React.Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = () => {
     this.update_chart();
   }
 
