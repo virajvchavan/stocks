@@ -11,7 +11,8 @@
     "react-sparklines": "^1.7.0",
     "react-websocket": "2.0.0",
     "reactbulma": "3.0.4",
-    "chartjs-plugin-zoom": "^0.6.6"
+    "chartjs-plugin-zoom": "^0.6.6",
+    "react-detect-offline": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,5 +1,6 @@
 import React from 'react'
 import StockRow from './StockRow.jsx'
+import { Detector } from "react-detect-offline";
 
 class StocksList extends React.Component {
 
@@ -13,6 +14,15 @@ class StocksList extends React.Component {
         <div className='card-header'>
           <div className='card-header-title'>
             Stocks
+            &nbsp;
+            {/*currently not handling the case when server is not responsding/server error, should be done through the websocket's connection info */}
+            <Detector
+              render={({ online }) => (
+                <span className={online ? "tag is-success" : "tag is-danger"}>
+                  {online ? "Live" : "Offline"}
+                </span>
+              )}
+            />
             &nbsp;
             <a className='button is-small' onClick={this.props.resetData}>Clear history</a>
           </div>
