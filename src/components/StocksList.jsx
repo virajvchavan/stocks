@@ -35,7 +35,7 @@ class StocksList extends React.Component {
                 <th>Name</th>
                 <th>Value</th>
                 <th>History</th>
-                <th>Update At</th>
+                <th>Updated At</th>
               </tr>
             </thead>
             <tbody>

@@ -36,3 +36,7 @@
 tr{
   cursor: pointer;
 }
+
+td.updated_at{
+  font-size: 12px;
+}
