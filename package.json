@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chart.js": "^2.7.3",
     "react": "^16.6.3",
+    "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
+    "react-sparklines": "^1.7.0",
     "react-websocket": "2.0.0",
-    "reactbulma": "3.0.4",
-    "react-sparklines": "^1.7.0"
+    "reactbulma": "3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

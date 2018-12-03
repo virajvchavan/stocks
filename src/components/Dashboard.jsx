@@ -30,6 +30,7 @@ class Dashboard extends React.Component {
         new_stocks[stock[0]] = { current_value: stock[1], history: [{time: Date.now(), value: Number(stock[1])}], is_selected: false }
       }
     });
+    new_stocks[result[0][0]].is_selected = true // temp, add some mechanism to select stocks
     this.setState({stocks: new_stocks})
   }
 
