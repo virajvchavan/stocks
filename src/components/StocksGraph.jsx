@@ -5,7 +5,7 @@ import { chartJsConfig, chartColors } from '../config.js'
 
 class StocksGraph extends React.Component {
 
-  create_new_dataset = (stock_name, current_stock, color) => {
+  creatNewDataset = (stock_name, current_stock, color) => {
     return {
       label: stock_name.toUpperCase(),
       fill: false,
@@ -23,11 +23,11 @@ class StocksGraph extends React.Component {
       pointHoverBorderWidth: 2,
       pointRadius: 3,
       pointHitRadius: 10,
-      data: this.get_chart_data(current_stock)
+      data: this.getChartData(current_stock)
     };
   }
 
-  update_chart = () => {
+  updateChart = () => {
     let chart = this.refs.chart.chartInstance;
 
     if(Object.keys(this.props.stocks).length === 0)
@@ -47,14 +47,14 @@ class StocksGraph extends React.Component {
         if(chart_dataset)
         {
           // only update the data, don't create a new dataset for the graph
-          chart_dataset.data = this.get_chart_data(current_stock);
+          chart_dataset.data = this.getChartData(current_stock);
         }
         else
         {
           // create a new dataset for graph
           if(current_stock)
           {
-            chart.data.datasets = chart.data.datasets.concat([this.create_new_dataset(stock_name, current_stock, chartColors[index])])
+            chart.data.datasets = chart.data.datasets.concat([this.creatNewDataset(stock_name, current_stock, chartColors[index])])
           }
         }
       }
@@ -63,8 +63,7 @@ class StocksGraph extends React.Component {
         if(chart_dataset)
         {
           // remove the dataset from graph
-          // currently wrong one is getting removed
-          chart.data.datasets.splice(chart.data.datasets[chart_dataset], 1);
+          chart.data.datasets.splice(chart.data.datasets.indexOf(chart_dataset), 1);
         }
       }
       chart.update();
@@ -72,11 +71,11 @@ class StocksGraph extends React.Component {
   }
 
   componentDidUpdate = () => {
-    this.update_chart();
+    this.updateChart();
   }
 
   // returns an array of objects, {t: timestamp, y: value}
-  get_chart_data = (stock) =>{
+  getChartData = (stock) =>{
     return stock.history.map((history) => {
       return {t: new Date(history.time), y: history.value};
     })
