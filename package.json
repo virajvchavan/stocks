@@ -2,6 +2,7 @@
   "name": "stocks",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://virajvchavan.github.io/stocks",
   "dependencies": {
     "chart.js": "^2.7.3",
     "react": "^16.6.3",
@@ -18,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages id build"
   },
   "eslintConfig": {
     "extends": "react-app"
