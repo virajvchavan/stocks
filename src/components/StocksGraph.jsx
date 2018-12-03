@@ -1,5 +1,6 @@
 import React from 'react'
 import {Line} from 'react-chartjs-2';
+import * as zoom from 'chartjs-plugin-zoom'
 
 class StocksGraph extends React.Component {
 
@@ -105,6 +106,15 @@ class StocksGraph extends React.Component {
             labelString: 'Price ($)'
           }
         }]
+      },
+      pan: {
+        enabled: true,
+        mode: 'x'
+      },
+      zoom: {
+        enabled: true,
+        drag: false,
+        mode: 'x'
       }
     };
 
