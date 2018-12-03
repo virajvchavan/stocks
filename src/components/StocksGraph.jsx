@@ -1,12 +1,12 @@
 import React from 'react'
 import {Line} from 'react-chartjs-2';
 import * as zoom from 'chartjs-plugin-zoom'
+import { chartJsConfig, chartColors } from '../config.js'
 
 class StocksGraph extends React.Component {
 
   update_chart = () => {
     let chart = this.refs.chart.chartInstance;
-    const chart_colors = ["rgb(0,0,128)", "rgb(0,128,0)", "rgb(128,0,0)", "rgb(128,0,128)", "rgb(60, 180, 75)", "rgb(145,30,180)", "rgb(128,128,0)", "rgb(245,130,48)"];
 
     if(Object.keys(this.props.stocks).length === 0)
     {
@@ -36,16 +36,16 @@ class StocksGraph extends React.Component {
               label: stock_name.toUpperCase(),
               fill: false,
               lineTension: 0,
-              backgroundColor: chart_colors[index],
-              borderColor: chart_colors[index],
+              backgroundColor: chartColors[index],
+              borderColor: chartColors[index],
               borderCapStyle: 'butt',
               borderJoinStyle: 'miter',
-              pointBorderColor: chart_colors[index],
+              pointBorderColor: chartColors[index],
               pointBackgroundColor: '#fff',
               pointBorderWidth: 1,
               pointHoverRadius: 5,
-              pointHoverBackgroundColor: chart_colors[index],
-              pointHoverBorderColor: chart_colors[index],
+              pointHoverBackgroundColor: chartColors[index],
+              pointHoverBorderColor: chartColors[index],
               pointHoverBorderWidth: 2,
               pointRadius: 3,
               pointHitRadius: 10,
@@ -80,48 +80,6 @@ class StocksGraph extends React.Component {
   }
 
   render() {
-
-    let chart_options = {
-      responsive: true,
-      scales: {
-        xAxes: [{
-          type: 'time',
-          distribution: 'linear',
-          ticks: {
-            source: 'auto'
-          },
-          time: {
-            displayFormats: {second: 'h:mm:ss a'},
-            unit: 'second'
-          },
-          scaleLabel: {
-            display: true,
-            labelString: 'Time'
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-            stepValue: 10,
-            steps: 10
-          },
-          scaleLabel: {
-            display: true,
-            labelString: 'Price ($)'
-          }
-        }]
-      },
-      pan: {
-        enabled: true,
-        mode: 'x'
-      },
-      zoom: {
-        enabled: true,
-        drag: false,
-        mode: 'x'
-      }
-    };
-
     return (
       <div className={'card column'} >
         <div className='card-header'>
@@ -136,7 +94,7 @@ class StocksGraph extends React.Component {
           <a className="button is-small is-pulled-right" onClick={this.resetZoom}>Reset zoom</a>
           <Line
             data={{datasets: []}}
-            options={chart_options}
+            options={chartJsConfig}
             ref='chart'
           />
         </div> 
