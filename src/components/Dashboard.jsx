@@ -39,12 +39,21 @@ class Dashboard extends React.Component {
     this.setState({ stocks: new_stocks })
   }
 
+  resetData = () => {
+    let new_stocks = this.state.stocks;
+    Object.keys(this.state.stocks).map((stock_name, index) =>
+    {
+      new_stocks[stock_name].history = [new_stocks[stock_name].history.pop()];
+    });
+    this.setState({ stocks: new_stocks });
+  }
+
   render() {
     return (
       <div className='container'>
         <Websocket url='ws://stocks.mnet.website/' onMessage={this.saveNewStockValues} />
         <div className='columns'>
-          <StocksList stocks={this.state.stocks} toggleStockSelection={this.toggleStockSelection} />
+          <StocksList stocks={this.state.stocks} toggleStockSelection={this.toggleStockSelection} resetData={this.resetData} />
           <StocksGraph stocks={this.state.stocks} />
         </div>
       </div>

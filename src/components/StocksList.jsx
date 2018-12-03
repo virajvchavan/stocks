@@ -11,7 +11,11 @@ class StocksList extends React.Component {
     return (
       <div className='card column is-one-third' id='stocks_list'>
         <div className='card-header'>
-          <div className='card-header-title'>Stocks</div>
+          <div className='card-header-title'>
+            Stocks
+            &nbsp;
+            <a className='button is-small' onClick={this.props.resetData}>Clear history</a>
+          </div>
         </div>
         <div className='card-content'>
           { this.are_stocks_loaded() ? <p className='is-size-7 has-text-info'>Click on a stock to select/unselect</p> : null }
