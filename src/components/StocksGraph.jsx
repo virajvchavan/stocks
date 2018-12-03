@@ -5,6 +5,28 @@ import { chartJsConfig, chartColors } from '../config.js'
 
 class StocksGraph extends React.Component {
 
+  create_new_dataset = (stock_name, current_stock, color) => {
+    return {
+      label: stock_name.toUpperCase(),
+      fill: false,
+      lineTension: 0,
+      backgroundColor: color,
+      borderColor: color,
+      borderCapStyle: 'butt',
+      borderJoinStyle: 'miter',
+      pointBorderColor: color,
+      pointBackgroundColor: '#fff',
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: color,
+      pointHoverBorderColor: color,
+      pointHoverBorderWidth: 2,
+      pointRadius: 3,
+      pointHitRadius: 10,
+      data: this.get_chart_data(current_stock)
+    };
+  }
+
   update_chart = () => {
     let chart = this.refs.chart.chartInstance;
 
@@ -32,26 +54,7 @@ class StocksGraph extends React.Component {
           // create a new dataset for graph
           if(current_stock)
           {
-            let dataset = {
-              label: stock_name.toUpperCase(),
-              fill: false,
-              lineTension: 0,
-              backgroundColor: chartColors[index],
-              borderColor: chartColors[index],
-              borderCapStyle: 'butt',
-              borderJoinStyle: 'miter',
-              pointBorderColor: chartColors[index],
-              pointBackgroundColor: '#fff',
-              pointBorderWidth: 1,
-              pointHoverRadius: 5,
-              pointHoverBackgroundColor: chartColors[index],
-              pointHoverBorderColor: chartColors[index],
-              pointHoverBorderWidth: 2,
-              pointRadius: 3,
-              pointHitRadius: 10,
-              data: this.get_chart_data(current_stock)
-            };
-            chart.data.datasets = chart.data.datasets.concat([dataset])
+            chart.data.datasets = chart.data.datasets.concat([this.create_new_dataset(stock_name, current_stock, chartColors[index])])
           }
         }
       }
@@ -60,6 +63,7 @@ class StocksGraph extends React.Component {
         if(chart_dataset)
         {
           // remove the dataset from graph
+          // currently wrong one is getting removed
           chart.data.datasets.splice(chart.data.datasets[chart_dataset], 1);
         }
       }
@@ -71,8 +75,11 @@ class StocksGraph extends React.Component {
     this.update_chart();
   }
 
+  // returns an array of objects, {t: timestamp, y: value}
   get_chart_data = (stock) =>{
-    return stock.history.map((history) => { return {t: new Date(history.time), y: history.value}})
+    return stock.history.map((history) => {
+      return {t: new Date(history.time), y: history.value};
+    })
   }
 
   resetZoom = () => {
