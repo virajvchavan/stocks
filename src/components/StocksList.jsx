@@ -1,11 +1,23 @@
 import React from 'react'
-import StockRow from './StockRow.jsx'
 import { Detector } from "react-detect-offline";
+import StockRow from './StockRow.jsx'
+import MarketTrend from './MarketTrend.jsx'
 
 class StocksList extends React.Component {
 
-  are_stocks_loaded = () => {
+  areStocksLoaded = () => {
     return Object.keys(this.props.stocks).length > 0
+  }
+
+  marketTrendArrow = () => {
+    switch(this.props.market_trend){
+      case 'up':
+        return '&#8679;'
+      case 'down':
+        return '>&#8681;'
+      default:
+        return null
+    }
   }
 
   render() {
@@ -28,12 +40,15 @@ class StocksList extends React.Component {
           </div>
         </div>
         <div className='card-content'>
-          { this.are_stocks_loaded() ? <p className='is-size-7 has-text-info'>Click on a stock to select/unselect</p> : null }
+          { this.areStocksLoaded() ? <p className='is-size-7 has-text-info'>Click on a stock to select/unselect</p> : null }
           <table className='table is-bordered'>
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Value</th>
+                <th>
+                  Value
+                  <MarketTrend current_trend={this.props.market_trend} />
+                </th>
                 <th>History</th>
                 <th>Updated At</th>
               </tr>
@@ -51,7 +66,7 @@ class StocksList extends React.Component {
                   )
                 }
               )}
-              { this.are_stocks_loaded() ? null : <tr><td colSpan='4'>No stocks loaded yet!</td></tr> }
+              { this.areStocksLoaded() ? null : <tr><td colSpan='4'>No stocks loaded yet!</td></tr> }
             </tbody>
           </table>
          </div>
