@@ -5,6 +5,7 @@ import { chartJsConfig, chartColors, chartDataset } from '../chartConfig.js'
 
 class StocksGraph extends React.Component {
 
+  // too big a function?
   updateChart = () => {
     let chart = this.refs.chart.chartInstance;
 
@@ -17,7 +18,9 @@ class StocksGraph extends React.Component {
     Object.keys(this.props.stocks).map((stock_name, index) =>
     {
       let current_stock = this.props.stocks[stock_name];
-      let chart_dataset = chart.data.datasets.find((dataset) => { return dataset.label === stock_name.toUpperCase() });
+      let chart_dataset = chart.data.datasets.find((dataset) => {
+        return dataset.label === stock_name.toUpperCase()
+      });
 
       if(current_stock.is_selected)
       {
@@ -32,7 +35,11 @@ class StocksGraph extends React.Component {
           // create a new dataset for graph
           if(current_stock)
           {
-            chart.data.datasets = chart.data.datasets.concat([chartDataset(stock_name, chartColors[index], this.getStockValues(current_stock))])
+            chart.data.datasets = chart.data.datasets.concat(
+              [
+                chartDataset(stock_name, chartColors[index], this.getStockValues(current_stock))
+              ]
+            )
           }
         }
       }
@@ -73,9 +80,12 @@ class StocksGraph extends React.Component {
         </div>
         <div className='card-content'>
           <p className='is-size-7 has-text-info'>
-            { this.refs.chart && this.refs.chart.chartInstance.data.datasets.length > 0 ? 'Scroll/pinch to zoom, drag to pan.' : 'Click on any stocks on your left to see graphs.' }
+            {
+              this.refs.chart &&
+              this.refs.chart.chartInstance.data.datasets.length > 0 ? 'Scroll/pinch to zoom, drag to pan.' : 'Click on any stocks on your left to see graphs.'
+            }
           </p>
-          <a className="button is-small is-pulled-right" onClick={this.resetZoom}>Reset zoom</a>
+          <button className="button is-small is-pulled-right" onClick={this.resetZoom}>Reset zoom</button>
           <Line
             data={{datasets: []}}
             options={chartJsConfig}

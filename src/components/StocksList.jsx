@@ -24,7 +24,7 @@ class StocksList extends React.Component {
               )}
             />
             &nbsp;
-            <a className='button is-small' onClick={this.props.resetData}>Clear history</a>
+            <button className='button is-small' onClick={this.props.resetData}>Clear history</button>
           </div>
         </div>
         <div className='card-content'>

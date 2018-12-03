@@ -4,6 +4,8 @@ import * as bulma from "reactbulma";
 import StocksList from "./StocksList.jsx";
 import StocksGraph from "./StocksGraph.jsx";
 
+const stocksUrl = 'ws://stocks.mnet.website/';
+
 class Dashboard extends React.Component {
 
   state = {
@@ -51,7 +53,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className='container'>
-        <Websocket url='ws://stocks.mnet.website/' onMessage={this.saveNewStockValues} />
+        <Websocket url={stocksUrl} onMessage={this.saveNewStockValues} />
         <div className='columns'>
           <StocksList stocks={this.state.stocks} toggleStockSelection={this.toggleStockSelection} resetData={this.resetData} />
           <StocksGraph stocks={this.state.stocks} />
