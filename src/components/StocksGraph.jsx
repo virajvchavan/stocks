@@ -1,31 +1,9 @@
 import React from 'react'
 import {Line} from 'react-chartjs-2';
 import * as zoom from 'chartjs-plugin-zoom'
-import { chartJsConfig, chartColors } from '../config.js'
+import { chartJsConfig, chartColors, chartDataset } from '../chartConfig.js'
 
 class StocksGraph extends React.Component {
-
-  creatNewDataset = (stock_name, current_stock, color) => {
-    return {
-      label: stock_name.toUpperCase(),
-      fill: false,
-      lineTension: 0,
-      backgroundColor: color,
-      borderColor: color,
-      borderCapStyle: 'butt',
-      borderJoinStyle: 'miter',
-      pointBorderColor: color,
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: color,
-      pointHoverBorderColor: color,
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 10,
-      data: this.getChartData(current_stock)
-    };
-  }
 
   updateChart = () => {
     let chart = this.refs.chart.chartInstance;
@@ -47,14 +25,14 @@ class StocksGraph extends React.Component {
         if(chart_dataset)
         {
           // only update the data, don't create a new dataset for the graph
-          chart_dataset.data = this.getChartData(current_stock);
+          chart_dataset.data = this.getStockValues(current_stock);
         }
         else
         {
           // create a new dataset for graph
           if(current_stock)
           {
-            chart.data.datasets = chart.data.datasets.concat([this.creatNewDataset(stock_name, current_stock, chartColors[index])])
+            chart.data.datasets = chart.data.datasets.concat([chartDataset(stock_name, chartColors[index], this.getStockValues(current_stock))])
           }
         }
       }
@@ -75,7 +53,7 @@ class StocksGraph extends React.Component {
   }
 
   // returns an array of objects, {t: timestamp, y: value}
-  getChartData = (stock) =>{
+  getStockValues = (stock) =>{
     return stock.history.map((history) => {
       return {t: new Date(history.time), y: history.value};
     })
