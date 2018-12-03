@@ -75,6 +75,10 @@ class StocksGraph extends React.Component {
     return stock.history.map((history) => { return {t: new Date(history.time), y: history.value}})
   }
 
+  resetZoom = () => {
+    this.refs.chart.chartInstance.resetZoom();
+  }
+
   render() {
 
     let chart_options = {
@@ -126,6 +130,10 @@ class StocksGraph extends React.Component {
           </div>
         </div>
         <div className='card-content'>
+          <p className='is-size-7 has-text-info'>
+            { this.refs.chart && this.refs.chart.chartInstance.data.datasets.length > 0 ? 'Scroll/pinch to zoom, drag to pan.' : 'Click on any stocks on your left to see graphs.' }
+          </p>
+          <a className="button is-small is-pulled-right" onClick={this.resetZoom}>Reset zoom</a>
           <Line
             data={{datasets: []}}
             options={chart_options}

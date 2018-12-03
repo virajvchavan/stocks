@@ -3,6 +3,10 @@ import StockRow from './StockRow.jsx'
 
 class StocksList extends React.Component {
 
+  are_stocks_loaded = () => {
+    return Object.keys(this.props.stocks).length > 0
+  }
+
   render() {
     return (
       <div className='card column is-one-third' id='stocks_list'>
@@ -10,6 +14,7 @@ class StocksList extends React.Component {
           <div className='card-header-title'>Stocks</div>
         </div>
         <div className='card-content'>
+          { this.are_stocks_loaded() ? <p className='is-size-7 has-text-info'>Click on a stock to select/unselect</p> : null }
           <table className='table is-bordered'>
             <thead>
               <tr>
@@ -32,7 +37,7 @@ class StocksList extends React.Component {
                   )
                 }
               )}
-              { Object.keys(this.props.stocks).length > 0 ? null : <tr><td colSpan='4'>No stocks loaded yet!</td></tr> }
+              { this.are_stocks_loaded() ? null : <tr><td colSpan='4'>No stocks loaded yet!</td></tr> }
             </tbody>
           </table>
          </div>
