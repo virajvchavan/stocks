@@ -41,7 +41,9 @@ export const chartJsConfig = {
   }
 };
 
-export const chartColors = ["rgb(0,0,128)", "rgb(0,128,0)", "rgb(128,0,0)", "rgb(128,0,128)", "rgb(60, 180, 75)", "rgb(145,30,180)", "rgb(128,128,0)", "rgb(245,130,48)"];
+// keep enough colors (should be as many as the number of stocks recieved)
+// adding these manually to make sure the colors actually look good
+export const chartColors = ["rgb(244, 67, 54)", "rgb(76, 175, 80)", "rgb(63, 81, 181)", "rgb(255, 152, 0)", "rgb(33, 150, 243)", "rgb(139, 195, 74)", "rgb(255, 87, 34)", "rgb(121, 85, 72)", "rgb(233, 30, 99)", "rgb(205, 220, 57)", "rgb(156, 39, 176)", "rgb(255, 235, 59)", "rgb(158, 158, 158)", "rgb(103, 58, 183)", "rgb(0, 150, 136)", "rgb(255, 193, 7)", "rgb(96, 125, 139)", "rgb(33, 33, 33)", "rgb(169, 4, 4)", "rgb(1, 74, 64)", "rgb(179, 3, 72)", "rgb(84, 58, 68)"];
 
 export const chartDataset = (stock_name, color, stock_values) => {
   return {
