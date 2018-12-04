@@ -3,6 +3,7 @@ import Websocket from 'react-websocket';
 import * as bulma from "reactbulma";
 import StocksList from "./StocksList.jsx";
 import StocksGraph from "./StocksGraph.jsx";
+import UnsafeScriptsWarning from "./UnsafeScriptsWarning";
 
 const stocksUrl = 'ws://stocks.mnet.website/';
 
@@ -11,7 +12,8 @@ class Dashboard extends React.Component {
   state = {
   // stocks = {name: {current_value: 12, history: [{time: '2131', value: 45}, ...], is_selected: false}, ...}
    stocks: {},
-   market_trend: undefined // 'up' or 'down'
+   market_trend: undefined, // 'up' or 'down'
+   show_unsafe_scripts_warning: true
   }
 
   saveNewStockValues = (data) => {
@@ -60,21 +62,30 @@ class Dashboard extends React.Component {
     this.setState({ stocks: new_stocks });
   }
 
+  loadApp = () => {
+    this.setState({show_unsafe_scripts_warning: false});
+  }
+
   render() {
-    return (
-      <div className='container'>
-        <Websocket url={stocksUrl} onMessage={this.saveNewStockValues} />
-        <div className='columns'>
-          <StocksList
-            stocks={this.state.stocks}
-            toggleStockSelection={this.toggleStockSelection}
-            resetData={this.resetData}
-            market_trend={this.state.market_trend}
-          />
-          <StocksGraph stocks={this.state.stocks} />
+    if(this.state.show_unsafe_scripts_warning){
+      return <UnsafeScriptsWarning loadApp={this.loadApp} />
+    }
+    else {
+      return (
+        <div className='container'>
+          <Websocket url={stocksUrl} onMessage={this.saveNewStockValues} />
+          <div className='columns'>
+            <StocksList
+              stocks={this.state.stocks}
+              toggleStockSelection={this.toggleStockSelection}
+              resetData={this.resetData}
+              market_trend={this.state.market_trend}
+            />
+            <StocksGraph stocks={this.state.stocks} />
+          </div>
         </div>
-      </div>
     );
+  }
   }
 }
 

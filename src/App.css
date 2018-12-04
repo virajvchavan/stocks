@@ -54,3 +54,10 @@ td.updated_at{
 .down-arrow{
   color: red;
 }
+.unsafe_script_warning{
+  margin-bottom: 20px;
+}
+.has-background-success{
+  background: green;
+  color: white;
+}
