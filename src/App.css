@@ -62,3 +62,9 @@ td.updated_at{
   background: green;
   color: white;
 }
+.modal-content{
+  background: white;
+  padding: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+}

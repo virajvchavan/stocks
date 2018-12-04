@@ -2,7 +2,7 @@ import React from 'react'
 
 const UnsafeScriptsWarning = props => {
   return (
-    <div className='container'>
+    <div className='container stocks-loader'>
       <div className='card-header'>
         <div className='card-header-icon'>
           <span className='loader'></span>

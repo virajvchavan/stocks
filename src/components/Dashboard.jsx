@@ -2,7 +2,6 @@ import React from 'react'
 import * as bulma from "reactbulma";
 import StocksList from "./StocksList.jsx";
 import StocksGraph from "./StocksGraph.jsx";
-import UnsafeScriptsWarning from "./UnsafeScriptsWarning";
 
 const stocksUrl = 'ws://stocks.mnet.website/';
 
@@ -12,22 +11,15 @@ class Dashboard extends React.Component {
   // stocks = {name: {current_value: 12, history: [{time: '2131', value: 45}, ...], is_selected: false}, ...}
    stocks: {},
    market_trend: undefined, // 'up' or 'down'
-   show_spinner: true
   }
 
   componentDidMount = () => {
     this.connection = new WebSocket(stocksUrl);
     this.connection.onmessage = this.saveNewStockValues;
-    this.connection.onerror = () => {
-      console.log('error')
-    };
-    this.connection.onclose = () => {
-      console.log('close')
-    }
   }
 
   saveNewStockValues = (event) => {
-    this.setState({show_spinner: false});
+    this.props.hideSpinner();
     let result = JSON.parse(event.data);
     let [up_values_count, down_values_count] = [0, 0];
 
@@ -78,25 +70,26 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    if(this.state.show_spinner) {
-      return <UnsafeScriptsWarning />
-    }
-    else {
-      return (
-        <div className='container'>
-          <div className='columns'>
-            <StocksList
-              stocks={this.state.stocks}
-              toggleStockSelection={this.toggleStockSelection}
-              resetData={this.resetData}
-              market_trend={this.state.market_trend}
-              areStocksLoaded={this.areStocksLoaded}
-            />
-            <StocksGraph stocks={this.state.stocks} />
+    return (
+      <div className='container'>
+        <div className='columns'>
+          <StocksList
+            stocks={this.state.stocks}
+            toggleStockSelection={this.toggleStockSelection}
+            resetData={this.resetData}
+            market_trend={this.state.market_trend}
+            areStocksLoaded={this.areStocksLoaded}
+          />
+          <StocksGraph stocks={this.state.stocks} />
+        </div>
+        <div className={ this.props.showSpinner ? 'modal is-active' : 'modal' }>
+          <div className="modal-background"></div>
+          <div className="modal-content">
+            <span className='loader'></span> Fetching some stocks...
           </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 
