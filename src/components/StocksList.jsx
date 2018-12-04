@@ -1,7 +1,7 @@
 import React from 'react'
 import { Detector } from "react-detect-offline";
 import StockRow from './StockRow.jsx'
-import MarketTrend from './MarketTrend.jsx'
+import MarketTrendArrow from './MarketTrendArrow.jsx'
 
 class StocksList extends React.Component {
 
@@ -47,7 +47,7 @@ class StocksList extends React.Component {
                 <th>Name</th>
                 <th>
                   Value
-                  <MarketTrend current_trend={this.props.market_trend} />
+                  <MarketTrendArrow current_trend={this.props.market_trend} />
                 </th>
                 <th>History</th>
                 <th>Updated At</th>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-class MarketTrend extends React.Component {
+class MarketTrendArrow extends React.Component {
 
   getArrow = () => {
     if(this.props.current_trend === 'up'){
@@ -23,4 +23,4 @@ class MarketTrend extends React.Component {
   }
 }
 
-export default MarketTrend;
+export default MarketTrendArrow;

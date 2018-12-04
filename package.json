@@ -5,15 +5,16 @@
   "homepage": "https://virajvchavan.github.io/stocks",
   "dependencies": {
     "chart.js": "^2.7.3",
+    "chartjs-plugin-zoom": "^0.6.6",
+    "gh-pages": "^2.0.1",
     "react": "^16.6.3",
     "react-chartjs-2": "^2.7.4",
+    "react-detect-offline": "^2.1.2",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
     "react-sparklines": "^1.7.0",
     "react-websocket": "2.0.0",
-    "reactbulma": "3.0.4",
-    "chartjs-plugin-zoom": "^0.6.6",
-    "react-detect-offline": "^2.1.2"
+    "reactbulma": "3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,7 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages id build"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
