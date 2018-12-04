@@ -62,35 +62,27 @@ class Dashboard extends React.Component {
     this.setState({ stocks: new_stocks });
   }
 
-  loadApp = () => {
-    this.setState({show_unsafe_scripts_warning: false});
-  }
-
   areStocksLoaded = () => {
     return Object.keys(this.state.stocks).length > 0;
   }
 
   render() {
-    if(this.state.show_unsafe_scripts_warning){
-      return <UnsafeScriptsWarning loadApp={this.loadApp} />
-    }
-    else {
-      return (
-        <div className='container'>
-          <Websocket url={stocksUrl} onMessage={this.saveNewStockValues} />
-          <div className='columns'>
-            <StocksList
-              stocks={this.state.stocks}
-              toggleStockSelection={this.toggleStockSelection}
-              resetData={this.resetData}
-              market_trend={this.state.market_trend}
-              areStocksLoaded={this.areStocksLoaded}
-            />
-            <StocksGraph stocks={this.state.stocks} />
-          </div>
+    return (
+      <div className='container'>
+        <UnsafeScriptsWarning />
+        <Websocket url={stocksUrl} onMessage={this.saveNewStockValues} />
+        <div className='columns'>
+          <StocksList
+            stocks={this.state.stocks}
+            toggleStockSelection={this.toggleStockSelection}
+            resetData={this.resetData}
+            market_trend={this.state.market_trend}
+            areStocksLoaded={this.areStocksLoaded}
+          />
+          <StocksGraph stocks={this.state.stocks} />
         </div>
-    );
-  }
+      </div>
+  );
   }
 }
 

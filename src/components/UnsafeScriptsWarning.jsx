@@ -9,9 +9,6 @@ const UnsafeScriptsWarning = props => {
           <br /> Look for the &nbsp;<code>shield icon</code>&nbsp; on your browser's addreess bar.  &#8679;
           <br /><br />(Trust me, it's just an app which shows some simulated share market data :p)
         </div>
-        <footer className='card-footer'>
-          <button onClick={props.loadApp} className="card-footer-item has-background-success">Proceed if you did that &#8679;</button>
-        </footer>
       </div>
     </div>
   );
