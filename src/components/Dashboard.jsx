@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
   }
 
   saveNewStockValues = (data) => {
+    this.setState({show_unsafe_scripts_warning: false});
     let result = JSON.parse(data);
     let [up_values_count, down_values_count] = [0, 0];
 
@@ -69,7 +70,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className='container'>
-        <UnsafeScriptsWarning />
+        { this.state.show_unsafe_scripts_warning ? <UnsafeScriptsWarning /> : null }
         <Websocket url={stocksUrl} onMessage={this.saveNewStockValues} />
         <div className='columns'>
           <StocksList
