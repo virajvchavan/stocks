@@ -33,7 +33,7 @@
   box-shadow: 1px 1px 5px #5555557d inset;
 }
 
-tbody tr{
+tbody tr, button{
   cursor: pointer;
 }
 

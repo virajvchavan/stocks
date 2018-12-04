@@ -10,7 +10,7 @@ const UnsafeScriptsWarning = props => {
           <br /><br />(Trust me, it's just an app which shows some simulated share market data :p)
         </div>
         <footer className='card-footer'>
-          <a onClick={props.loadApp} href='#' className="card-footer-item has-background-success">Proceed if you did that &#8679;</a>
+          <button onClick={props.loadApp} className="card-footer-item has-background-success">Proceed if you did that &#8679;</button>
         </footer>
       </div>
     </div>

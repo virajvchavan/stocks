@@ -66,6 +66,10 @@ class Dashboard extends React.Component {
     this.setState({show_unsafe_scripts_warning: false});
   }
 
+  areStocksLoaded = () => {
+    return Object.keys(this.state.stocks).length > 0;
+  }
+
   render() {
     if(this.state.show_unsafe_scripts_warning){
       return <UnsafeScriptsWarning loadApp={this.loadApp} />
@@ -80,6 +84,7 @@ class Dashboard extends React.Component {
               toggleStockSelection={this.toggleStockSelection}
               resetData={this.resetData}
               market_trend={this.state.market_trend}
+              areStocksLoaded={this.areStocksLoaded}
             />
             <StocksGraph stocks={this.state.stocks} />
           </div>
