@@ -1,5 +1,4 @@
 import React from 'react'
-import Websocket from 'react-websocket';
 import * as bulma from "reactbulma";
 import StocksList from "./StocksList.jsx";
 import StocksGraph from "./StocksGraph.jsx";
@@ -13,12 +12,23 @@ class Dashboard extends React.Component {
   // stocks = {name: {current_value: 12, history: [{time: '2131', value: 45}, ...], is_selected: false}, ...}
    stocks: {},
    market_trend: undefined, // 'up' or 'down'
-   show_unsafe_scripts_warning: true
+   show_spinner: true
   }
 
-  saveNewStockValues = (data) => {
-    this.setState({show_unsafe_scripts_warning: false});
-    let result = JSON.parse(data);
+  componentDidMount = () => {
+    this.connection = new WebSocket(stocksUrl);
+    this.connection.onmessage = this.saveNewStockValues;
+    this.connection.onerror = () => {
+      console.log('error')
+    };
+    this.connection.onclose = () => {
+      console.log('close')
+    }
+  }
+
+  saveNewStockValues = (event) => {
+    this.setState({show_spinner: false});
+    let result = JSON.parse(event.data);
     let [up_values_count, down_values_count] = [0, 0];
 
     // time stored in histories should be consisitent across stocks(better for graphs)
@@ -68,22 +78,25 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    return (
-      <div className='container'>
-        { this.state.show_unsafe_scripts_warning ? <UnsafeScriptsWarning /> : null }
-        <Websocket url={stocksUrl} onMessage={this.saveNewStockValues} />
-        <div className='columns'>
-          <StocksList
-            stocks={this.state.stocks}
-            toggleStockSelection={this.toggleStockSelection}
-            resetData={this.resetData}
-            market_trend={this.state.market_trend}
-            areStocksLoaded={this.areStocksLoaded}
-          />
-          <StocksGraph stocks={this.state.stocks} />
+    if(this.state.show_spinner) {
+      return <UnsafeScriptsWarning />
+    }
+    else {
+      return (
+        <div className='container'>
+          <div className='columns'>
+            <StocksList
+              stocks={this.state.stocks}
+              toggleStockSelection={this.toggleStockSelection}
+              resetData={this.resetData}
+              market_trend={this.state.market_trend}
+              areStocksLoaded={this.areStocksLoaded}
+            />
+            <StocksGraph stocks={this.state.stocks} />
+          </div>
         </div>
-      </div>
-  );
+      );
+    }
   }
 }
 

@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://virajvchavan.github.io/stocks",
   "dependencies": {
+    "bulma-pageloader": "^2.1.0",
     "chart.js": "^2.7.3",
     "chartjs-plugin-zoom": "^0.6.6",
     "gh-pages": "^2.0.1",
@@ -14,7 +15,6 @@
     "react-scripts": "2.1.1",
     "react-sparklines": "^1.7.0",
     "react-timeago": "^4.1.9",
-    "react-websocket": "2.0.0",
     "reactbulma": "3.0.4"
   },
   "scripts": {

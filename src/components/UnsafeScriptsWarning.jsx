@@ -3,6 +3,14 @@ import React from 'react'
 const UnsafeScriptsWarning = props => {
   return (
     <div className='container'>
+      <div className='card-header'>
+        <div className='card-header-icon'>
+          <span className='loader'></span>
+        </div>
+        <div className='card-header-title'>
+          Loading...
+        </div>
+      </div>
       <div className='card'>
         <div className='card-content'>
           You need to click on &nbsp;<code>Load Unsafe Scripts</code>&nbsp; to proceed.

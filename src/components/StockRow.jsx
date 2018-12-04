@@ -4,20 +4,6 @@ import TimeAgo from 'react-timeago'
 
 class StockRow extends React.Component {
 
-  // lastUpdatedAt = (stock) => {
-  //   let time_diff = Date.now() - Number(stock.history.slice(-1)[0].time);
-  //   if(time_diff <= 4000){
-  //     // stays 'just now' until this function is called again for this stock: WRONG
-  //     return 'just now'
-  //   }
-  //   else if(time_diff > 4000 && time_diff <60000){
-  //     return 'few seconds ago'
-  //   }
-  //   else{
-  //     return Date.now(stock.history.slice(-1)[0].time).toLocaleString(undefined, {hour: 'numeric', minute: 'numeric'})
-  //   }
-  // }
-
   getStockValueColor = (stock) =>{
     if(stock.current_value < stock.history.slice(-2)[0].value){
       return 'red';
