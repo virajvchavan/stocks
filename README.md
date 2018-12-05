@@ -2,6 +2,8 @@ A demo application built in React.
 
 Deployed here: https://virajvchavan.github.io/stocks
 
+(If you are somehow not able to allow loading unsafe scripts from your browser, open this link instead: http://stocksdemo.herokuapp.com)
+
 What it does: Show real time stock market data in the form of table and graphs
 
 Subscribes to a Websocket(ws://stocks.mnet.website/) to fetch simulated stock market data.
