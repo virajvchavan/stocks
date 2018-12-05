@@ -11,11 +11,13 @@ class Dashboard extends React.Component {
   // stocks = {name: {current_value: 12, history: [{time: '2131', value: 45}, ...], is_selected: false}, ...}
    stocks: {},
    market_trend: undefined, // 'up' or 'down'
+   connectionError: false
   }
 
   componentDidMount = () => {
     this.connection = new WebSocket(stocksUrl);
     this.connection.onmessage = this.saveNewStockValues;
+    this.connection.onclose = () => { this.setState({connectionError: true}) }
   }
 
   saveNewStockValues = (event) => {
@@ -85,7 +87,7 @@ class Dashboard extends React.Component {
         <div className={ this.props.showSpinner ? 'modal is-active' : 'modal' }>
           <div className="modal-background"></div>
           <div className="modal-content">
-            <span className='loader'></span> Fetching some stocks...
+            {this.state.connectionError ? <div className='tag is-warning'>Server did not send any data. Probably the market is closed at the moment. (Come back later? :-))</div> : <div className='tag is-large is-success'><span className='loader'> &nbsp;</span> &nbsp; &nbsp; Fetching some stocks...</div> }
           </div>
         </div>
       </div>
