@@ -19,7 +19,7 @@ Features:
   - Clear history of all stocks with the click of a button
   - Handles connection errors
   
-Possible Enhancements:
+Possible Enhancements: ([See issues](https://github.com/virajvchavan/stocks/issues))
   - An option to export the historical data of the selected stocks
   - Show Highs and Lows of individual stocks
   - A graph that can show aggregated condition for the overall market
