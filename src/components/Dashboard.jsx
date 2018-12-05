@@ -2,6 +2,7 @@ import React from 'react'
 import * as bulma from "reactbulma";
 import StocksList from "./StocksList.jsx";
 import StocksGraph from "./StocksGraph.jsx";
+import StocksLoaderStatus from "./StocksLoaderStatus.jsx";
 
 const stocksUrl = 'ws://stocks.mnet.website/';
 
@@ -87,7 +88,7 @@ class Dashboard extends React.Component {
         <div className={ this.props.showSpinner ? 'modal is-active' : 'modal' }>
           <div className="modal-background"></div>
           <div className="modal-content">
-            {this.state.connectionError ? <div className='tag is-warning'>Server did not send any data. Probably the market is closed at the moment. (Come back later? :-))</div> : <div className='tag is-large is-success'><span className='loader'> &nbsp;</span> &nbsp; &nbsp; Fetching some stocks...</div> }
+            <StocksLoaderStatus connectionError={this.state.connectionError} />
           </div>
         </div>
       </div>

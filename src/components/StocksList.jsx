@@ -10,7 +10,6 @@ const StocksList = (props) => {
         <div className='card-header-title'>
           Stocks
           &nbsp;
-          {/*currently not handling the case when the internet is working but server is not responsding/server error, should be done through the websocket's connection info */}
           <Detector
             render={({ online }) => (
               <span className={online ? "tag is-success" : "tag is-danger"}>
