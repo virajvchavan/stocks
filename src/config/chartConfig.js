@@ -1,4 +1,4 @@
-// configurations required for ChartJs
+// configurations required for ChartJs, used in StocksGraph component
 
 export const chartJsConfig = { 
   responsive: true,
@@ -47,7 +47,7 @@ export const chartColors = ["rgb(244, 67, 54)", "rgb(76, 175, 80)", "rgb(63, 81,
 
 export const chartDataset = (stock_name, color, stock_values) => {
   return {
-    label: stock_name.toUpperCase(),
+    label: stock_name, // .toUpperCase()
     fill: false,
     lineTension: 0,
     backgroundColor: color,

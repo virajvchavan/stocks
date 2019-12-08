@@ -10,6 +10,8 @@
 
 .card-header-title{
   color: white !important;
+  display: flex;
+  justify-content: space-between;
 }
 
 #stocks_list .card-content{
@@ -19,6 +21,10 @@
 #stocks_list table{
   width: 100%;
   margin: 3px;
+}
+
+.stock-header-button {
+  flex: 1;
 }
 
 .red{
