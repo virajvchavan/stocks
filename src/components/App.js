@@ -15,31 +15,33 @@ export class App extends Component {
   state = {
     hasError: false,
     showSpinner: true
-  }
+  };  // end this.state definition
 
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
+  static getDerivedStateFromError(error) { // Update state, render will show the fallback UI.
     console.log('some error has occured');
     return { hasError: true };
   }
 
   componentDidCatch(error, info) {
-    // You can also log the error to an error reporting service
     console.log(error, info);
+    // NOTE: Could also log to a reporting service
   }
 
   hideSpinner = () => {
-    this.setState({showSpinner: false});
-  }
+    this.setState(
+      { showSpinner: false }
+    );
+  };
 
-  render() {
-    return (this.state.hasError)
-      ? <UnsafeScriptsWarning />
-      : <div className="App">
-          <Dashboard hideSpinner={this.hideSpinner}
-                     showSpinner={this.state.showSpinner} />
-        </div>;
-  }
+  render = () => (
+    (this.state.hasError)
+    ? <UnsafeScriptsWarning />
+    : <div className="App">
+        <Dashboard hideSpinner={this.hideSpinner}
+                   showSpinner={this.state.showSpinner} />
+      </div>
+  );
+
 }
 
 // UnsafeScriptsWarning component is internal to App
@@ -63,116 +65,147 @@ const UnsafeScriptsWarning = (props) => (
   </div>
 );
 
-const stocksUrl = 'ws://stocks.mnet.website/';
-
 class Dashboard extends React.Component {
 
   state = {
-  // stocks = {name: {current_value: 12, history: [{time: '2131', value: 45}, ...], is_selected: false}, ...}
+  // stocks = { name: { current_value: 12,
+  //                    history: [{time: '2131', value: 45}, ...],
+  //                    is_selected: false},
+  //            <more-stock-definitions-with-history>
+  //          }
    stocks: {},
-   market_trend: undefined, // 'up' or 'down'
+   marketTrend: undefined, // 'up' or 'down'
    connectionError: false,
-   updatingPaused: false
-  };
-
-  componentDidMount = () => {
-    this.establishStockWebSocket();
-  };
+   updatesArePaused: false
+  }; // end this.state definition
 
   establishStockWebSocket = () => {
+    const stocksUrl = 'ws://stocks.mnet.website/';
     this.connection = new WebSocket(stocksUrl);
-    this.connection.onmessage = this.saveNewStockValues;
-    this.connection.onclose = () => { this.setState({connectionError: true}) }
-  };
+    this.connection.onmessage = this.updateStockValues;
+    this.connection.onclose = () => {
+       this.setState(
+         { connectionError: true}
+       )
+    };
+  }; // end establishStockWebSocket()
 
-  saveNewStockValues = (event) => {
-    // triggered by stock update message from websocket
+  updateStockValues = (e) => {
+    // triggered by stock update message from websocket, 'onmessage' event handler
     this.props.hideSpinner();
-    const result = JSON.parse(event.data);
-    let [up_values_count, down_values_count] = [0, 0];
+    const result = JSON.parse(e.data);
+    let [ upStocks, downStocks ] = [0, 0];
 
+    // result is simulated stock prices for some set of stocks
     // time stored in histories should be consisitent across stocks(better for graphs)
-    const current_time = Date.now();
-    const new_stocks = this.state.stocks
-    result.map((stock) =>
-      { // stock = ['name', 'value']
-        if (this.state.stocks[stock[0]]) {
-          new_stocks[stock[0]].current_value > Number(stock[1]) ? up_values_count++ : down_values_count++;
-          new_stocks[stock[0]].current_value = Number(stock[1])
-          new_stocks[stock[0]].history.push({time: current_time, value: Number(stock[1])})
+    const currentTime = Date.now();
+    const stocks = this.state.stocks;
+    result.map((stockUpdateReport) =>
+      { // stockUpdateReport = ['name', 'value']
+        const [ stockName, stockPrice ] = stockUpdateReport;
+        const newValue = Number(stockPrice);
+        if (stocks[stockName]) { // exists, has history
+          const stock = stocks[stockName];          
+          (stock.current_value < newValue) ? upStocks++ : downStocks++;
+          stock.current_value = newValue;
+          stock.history.push(
+            { time: currentTime, value: newValue }
+          );
         } else {
-          new_stocks[stock[0]] = { current_value: stock[1], history: [{time: Date.now(), value: Number(stock[1])}], is_selected: false }
+          stocks[stockName] =
+            { current_value: stockPrice,
+              history: [ { time: currentTime, value: newValue } ],
+              is_selected: false
+            };
         }
-        return true;
+        return true; // needed because of map
       });
-    this.setState({stocks: new_stocks, market_trend: this.newMarketTrend(up_values_count, down_values_count)})
-  };
+    // NOTE: up_stocks and down_stocks set during map processing above
+    this.setState(
+      { stocks: stocks,
+        marketTrend: this.newMarketTrend(upStocks, downStocks)
+      });
+  }; // end updateStockValues()
 
   // characaterize values that just came in as up/down/nc, not all the stocks
-  newMarketTrend = (up_count, down_count) => (
-    (up_count === down_count)
+  newMarketTrend = (upStocks, downStocks) => (
+    (upStocks === downStocks)
     ? undefined
     :
-    (up_count > down_count)
+    (upStocks > downStocks)
     ? 'up'
     : 'down'
   );
 
-  toggleStockSelection = (stock_name) => {
-    const new_stocks = this.state.stocks;
-    new_stocks[stock_name].is_selected =
-        !new_stocks[stock_name].is_selected
-    this.setState({ stocks: new_stocks })
+  toggleStockSelection = (stockName) => {
+    const stocks = this.state.stocks;
+    stocks[stockName].is_selected = !stocks[stockName].is_selected;
+    this.setState(
+      { stocks: stocks }
+    );
   };
 
   resetData = () => {
-    const new_stocks = this.state.stocks;
+    const stocks = this.state.stocks;
     Object.keys(this.state.stocks)
-    .map((stock_name) =>
-      { new_stocks[stock_name].history =
-            [new_stocks[stock_name].history.pop()];
-        return true;
+    .map((stockName) =>
+      { // keep one history element, the most current, pop to get it
+        const stock = stocks[stockName];
+        stock.history = [ stock.history.pop() ];
+        return true; // necessary because of map
       });
-    this.setState({ stocks: new_stocks });
-  };
+    this.setState(
+      { stocks: stocks }
+    );
+  }; // end resetData()
 
   areStocksLoaded = () => Object.keys(this.state.stocks).length > 0;
 
-  isUpdatingPaused = () => this.state.updatingPaused;
+  areUpdatesPaused = () => this.state.updatesArePaused;
 
   pauseOrResume = () => {
-    const toggled_value = !this.state.updatingPaused;
-    if (toggled_value) { // pausing
+    const pausing = !this.state.updatesArePaused;
+    if (pausing) {
       this.connection.close();
+      this.connection = undefined;
     } else { // resuming, re-create connection to stock updates
       this.establishStockWebSocket();
     }
-    this.setState({ updatingPaused: toggled_value });
+    this.setState(
+      { updatesArePaused: pausing }
+    );
     return undefined;
-  };
+  }; // end pauseOrResume()
 
-  render = () => (
-    <div className='container'>
-      <div className='columns'>
-        <StocksList
-          stocks={this.state.stocks}
-          toggleStockSelection={this.toggleStockSelection}
-          resetData={this.resetData}
-          market_trend={this.state.market_trend}
-          areStocksLoaded={this.areStocksLoaded}
-          updatingPaused={this.isUpdatingPaused}
-          pauseOrResume={this.pauseOrResume}
-        />
-        <StocksGraph stocks={this.state.stocks} />
-      </div>
-      <div className={ this.props.showSpinner ? 'modal is-active' : 'modal' }>
-        <div className="modal-background"></div>
-        <div className="modal-content">
-          <StocksLoaderStatus connectionError={this.state.connectionError} />
+  componentDidMount (props, state) {
+    this.establishStockWebSocket();
+  }
+
+  render = () => {
+    // console.log(`Dashboard render: ${Date.now()}`);
+    return (
+      <div className='container'>
+        <div className='columns'>
+          <StocksList
+            stocks={this.state.stocks}
+            toggleStockSelection={this.toggleStockSelection}
+            resetData={this.resetData}
+            marketTrend={this.state.marketTrend}
+            areStocksLoaded={this.areStocksLoaded}
+            areUpdatesPaused={this.areUpdatesPaused}
+            pauseOrResume={this.pauseOrResume}
+          />
+          <StocksGraph stocks={this.state.stocks} />
+        </div>
+        <div className={ this.props.showSpinner ? 'modal is-active' : 'modal' }>
+          <div className="modal-background"></div>
+          <div className="modal-content">
+            <StocksLoaderStatus connectionError={this.state.connectionError} />
+          </div>
         </div>
       </div>
-    </div>
-  ); // end render
+    );
+  }; // end render
 
 }
 
@@ -180,13 +213,13 @@ class Dashboard extends React.Component {
 const StocksLoaderStatus = (props) => (
   (props.connectionError)
   ? <div className='is-medium'>
-        <span className='has-text-danger'>
-          The server sent no data; the market may be closed.
-        </span>
-        <br />{"Come back later? :-)"}
+      <span className='has-text-danger'>
+        No data received; the market may be closed.
+      </span>
+      <br />{"Come back later? :-)"}
     </div>
   : <div className='tag is-large is-success'>
         <span className='loader'> &nbsp;</span>
-        &nbsp; &nbsp; Fetching some stocks...
+        &nbsp; &nbsp; Fetching stock data...
     </div>
 );
