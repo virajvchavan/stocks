@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import './App.css';
-import { StocksList } from "./StocksList.jsx";
-import { StocksGraph } from "./StocksGraph.jsx";
+import React, { Component } from "react";
+import "./App.css";
+import { StocksList } from "./StocksList";
+import { StocksGraph } from "./StocksGraph";
 
 // NOTE: The import from "reactbulma" to "bulma" below is required to
 //       render the 'history' column properly.  The "bulma" name is
@@ -220,6 +220,6 @@ const StocksLoaderStatus = (props) => (
     </div>
   : <div className='tag is-large is-success'>
         <span className='loader'> &nbsp;</span>
-        &nbsp; &nbsp; Fetching stock data...
+        &nbsp; &nbsp; Fetching stock information ...
     </div>
 );
