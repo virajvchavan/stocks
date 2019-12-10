@@ -77,12 +77,13 @@ export const StocksList = (props) => {
 // This allows the 'pause' function to actually pause without constant updating 'time ago'.
 const timeAgoString = (d1, d2) => {
 
-  const timediff = Math.abs(d2 - d1); //milliseconds
-  const seconds = Math.floor(timediff * .001);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const years = Math.floor(days / 365);
+  // Note: ~~(<expression>) truncates decimal part ==> integer
+  //       Faster than Math.floor, and ~~(-1.25) is -1 and not -2.
+  const seconds = ~~(Math.abs(d2 - d1) * .001);  // Milliseconds cvt
+  const minutes = ~~(seconds / 60);
+  const hours = ~~(minutes / 60);
+  const days = ~~(hours / 24);
+  const years = ~~(days / 365);
 
   const timeElements = [ seconds, minutes, hours, days, years ];
   const idx = (years > 0) ? 4
