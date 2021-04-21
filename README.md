@@ -2,7 +2,7 @@ A demo application built in React.
 
 Deployed here:http://stocksdemo.herokuapp.com)
 
-What it does: Show real time stock market data in the form of table and graphs
+What it does: Show real time stock market data (fake, random data, just to simulate) in the form of table and graphs
 
 Subscribes to a Websocket(ws://stocks.mnet.website/) to fetch simulated stock market data.
 
